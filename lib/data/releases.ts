@@ -162,7 +162,7 @@ export const releases: Release[] = [
     },
     embedUrl: "PLACEHOLDER_SPOTIFY_EMBED",
     coverArtPath: "/images/covers/chunnari-chunnari.jpg",
-    youtubeId: "XqdtZhYAVa0",
+    youtubeId: "J_d_Q3pTYcc",
     contextLine: "Reimagined club-ready version.",
     featured: false,
   },
@@ -290,21 +290,7 @@ export const releases: Release[] = [
     contextLine: "Early independent film score.",
     featured: false,
   },
-  {
-    id: "previous",
-    title: "Previous",
-    project: "Previous",
-    projectType: "film",
-    creditAs: "Akshay Raheja",
-    role: ["composer"],
-    year: 2015,
-    releaseDate: "2015-06-01T00:00:00Z",
-    isRecreation: false,
-    embedUrl: "PLACEHOLDER_SPOTIFY_EMBED",
-    coverArtPath: "/images/covers/previous.jpg",
-    contextLine: "Solo legacy filmography entry.",
-    featured: false,
-  },
+
   {
     id: "sharafat-gayi-tel-lene",
     title: "Sharafat Gayi Tel Lene",
@@ -324,7 +310,7 @@ export const releases: Release[] = [
 
 export function getNowFeed(): Release[] {
   return releases
-    .filter((r) => r.creditAs === "Akshay & IP")
+    .filter((r) => r.creditAs === "Akshay & IP" && r.isRecreation !== true)
     .sort((a, b) => new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime());
 }
 

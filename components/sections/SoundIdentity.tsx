@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
+import ReactPlayer from 'react-player/youtube';
 import { releases, Release } from '@/lib/data/releases';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -11,28 +12,35 @@ gsap.registerPlugin(ScrollTrigger);
 // Backstage Audio Player snippet
 function BackstageClip({ clip, note }: { clip: Release, note: string }) {
   const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef<HTMLAudioElement>(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const togglePlay = () => {
-    if (!audioRef.current) return;
-    if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      audioRef.current.play().then(() => setIsPlaying(true)).catch(console.error);
-    }
+    setIsPlaying(!isPlaying);
   };
 
   return (
     <div className="flex flex-col gap-3 relative group clip-item">
       {/* Clip player box */}
       <div className="w-full flex items-center gap-6 bg-transparent border-b border-hairline pb-6 pt-2 transition-transform duration-300">
-        <audio 
-          ref={audioRef} 
-          src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" 
-          onEnded={() => setIsPlaying(false)}
-          className="hidden" 
-        />
+        {isMounted && (
+          <ReactPlayer 
+            url={clip.youtubeId ? `https://www.youtube.com/watch?v=${clip.youtubeId}` : ''}
+            playing={isPlaying}
+            onEnded={() => setIsPlaying(false)}
+            width="0"
+            height="0"
+            className="hidden"
+            config={{
+              youtube: {
+                playerVars: { showinfo: 0, controls: 0 }
+              }
+            }}
+          />
+        )}
         
         <button 
           onClick={togglePlay}
@@ -117,16 +125,6 @@ export default function SoundIdentity() {
             {/* Bio in Inter (neutral grotesque) for clean contrast */}
             <p className="font-body text-xl md:text-2xl text-text-secondary leading-relaxed md:leading-loose">
               {bio}
-            </p>
-          </div>
-
-          {/* Photo Slot: High contrast, backstage rig vibe */}
-          <div className="w-full max-w-sm aspect-[4/3] bg-bg-base border border-hairline relative flex items-center justify-center overflow-hidden">
-            {/* TODO: Source a photography asset that evokes backstage/rigging/haze/spotlight rather than candid warm studio light. */}
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,rgba(232,41,28,0.1)_0%,transparent_60%)] pointer-events-none z-10"></div>
-            
-            <p className="font-structural text-xs text-text-secondary tracking-[0.2em] uppercase z-20 border border-hairline px-3 py-1">
-              Asset Pending
             </p>
           </div>
         </div>

@@ -1,99 +1,123 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import Image from 'next/image';
-import { getFilmographyLegacy, Release } from '@/lib/data/releases';
+import { getFilmographyLegacy } from '@/lib/data/releases';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 
 gsap.registerPlugin(ScrollTrigger);
 
-function FilmographyRow({ release }: { release: Release }) {
-  const [isExpanded, setIsExpanded] = useState(false);
-  
-  return (
-    <div 
-      className="group border-b border-hairline py-6 md:py-8 cursor-pointer relative"
-      onClick={() => setIsExpanded(!isExpanded)}
-    >
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-8 transition-opacity duration-300">
-        <div className="w-full md:w-1/6">
-          <span className="font-structural text-sm text-text-secondary uppercase tracking-[0.2em]">{release.year}</span>
-        </div>
-        
-        <div className="w-full md:w-3/6">
-          <h3 className="font-structural text-2xl md:text-3xl text-text-primary uppercase tracking-widest group-hover:text-accent-flash transition-colors">
-            {release.title}
-          </h3>
-        </div>
-        
-        <div className="w-full md:w-2/6 text-left md:text-right">
-          <span className="font-structural text-xs text-text-secondary uppercase tracking-[0.2em]">
-            {release.role.join(' / ')}
-          </span>
-        </div>
-      </div>
-      
-      {/* Desktop hover image - absolute positioned off-center */}
-      <div className="hidden md:block absolute right-[25%] top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-10 w-48 aspect-square relative mix-blend-screen">
-        <Image 
-          src={release.coverArtPath || '/images/covers/placeholder.jpg'} 
-          alt={`${release.title} cover`} 
-          fill
-          className="object-cover grayscale opacity-60 shadow-2xl"
-          unoptimized
-        />
-      </div>
-      
-      {/* Mobile expand image */}
-      <div className={`md:hidden overflow-hidden transition-all duration-300 ease-out ${isExpanded ? 'max-h-64 mt-6 opacity-100' : 'max-h-0 opacity-0'}`}>
-        <div className="w-32 aspect-square relative">
-          <Image src={release.coverArtPath || '/images/covers/placeholder.jpg'} alt={`${release.title} cover`} fill className="object-cover grayscale mix-blend-screen opacity-80" unoptimized />
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export default function FilmographyLegacy() {
   const legacy = getFilmographyLegacy();
-  const containerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const scrollWrapperRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    if (!containerRef.current) return;
+    if (!sectionRef.current || !scrollWrapperRef.current) return;
     
-    // Fast snap reveal
-    gsap.fromTo('.filmography-row', 
-      { opacity: 0, x: -20 },
-      {
-        opacity: 1,
-        x: 0,
-        duration: 0.3,
-        stagger: 0.05,
-        ease: 'power4.out',
-        scrollTrigger: {
-          trigger: '.filmography-list',
-          start: 'top 85%',
+    const wrapper = scrollWrapperRef.current;
+    const items = wrapper.querySelectorAll('.poster-item');
+    
+    const getScrollAmount = () => {
+      const parentWidth = wrapper.parentElement?.clientWidth || window.innerWidth;
+      return -(wrapper.scrollWidth - parentWidth);
+    };
+
+    gsap.to(wrapper, {
+      x: getScrollAmount,
+      ease: "none",
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top top",
+        end: "bottom bottom", // Finishes exactly when the section unpins
+        scrub: true, // Perfect 1:1 scrub sync with no lag, prevents unpinning while posters are still moving
+        invalidateOnRefresh: true,
+        onUpdate: () => {
+          const rightCol = wrapper.parentElement;
+          if (!rightCol) return;
+          const rightColRect = rightCol.getBoundingClientRect();
+          const rightColCenter = rightColRect.left + rightColRect.width / 2;
+
+          items.forEach((item) => {
+            const rect = item.getBoundingClientRect();
+            const itemCenter = rect.left + rect.width / 2;
+            const distance = Math.abs(itemCenter - rightColCenter);
+            
+            // If the item center is close to the container center, mark active
+            if (distance < rect.width * 0.5) {
+              item.setAttribute('data-active', 'true');
+            } else {
+              item.setAttribute('data-active', 'false');
+            }
+          });
         }
       }
-    );
-  }, { scope: containerRef });
+    });
+    
+  }, { scope: sectionRef });
 
   return (
-    <section id="filmography" className="w-full py-24 md:py-32 px-6 md:px-16 border-t border-hairline bg-bg-base" ref={containerRef}>
-      <div className="max-w-7xl mx-auto">
-        <header className="mb-20 md:mb-24">
-          <h2 className="font-display text-5xl md:text-7xl lg:text-8xl text-text-primary tracking-tighter">Filmography</h2>
-        </header>
-
-        <div className="filmography-list border-t border-hairline flex flex-col">
-          {legacy.map(release => (
-            <div key={release.id} className="filmography-row">
-              <FilmographyRow release={release} />
-            </div>
-          ))}
+    <section 
+      id="filmography" 
+      ref={sectionRef}
+      className="w-full h-[800vh] relative border-t border-hairline" // Taller section = slower scroll
+    >
+      {/* Sticky container that stays in the viewport */}
+      <div className="sticky top-0 w-full h-screen overflow-hidden flex flex-col md:flex-row bg-bg-raised">
+        
+        {/* Texture Background */}
+        <div className="absolute inset-0 pointer-events-none z-0">
+          <img 
+            src="/images/duo-photo-placeholder.jpg" 
+            className="w-full h-full object-cover grayscale mix-blend-screen opacity-5"
+            alt=""
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+            }}
+          />
+          <div className="absolute inset-0 bg-bg-raised/90"></div>
         </div>
+
+        {/* Left Column: Fixed Text */}
+        <div className="w-full md:w-1/3 lg:w-2/5 h-auto md:h-full flex flex-col justify-center px-8 md:px-16 lg:px-24 py-12 md:py-0 relative z-20 shrink-0 bg-bg-raised">
+          <h2 className="font-display text-7xl md:text-8xl lg:text-[8vw] leading-[0.8] tracking-tighter text-text-primary uppercase mb-8">
+            The<br/>Legacy.
+          </h2>
+          <p className="font-accent text-2xl md:text-4xl text-text-secondary italic max-w-sm">
+            A decade of original scores that redefined the sound of Indian cinema.
+          </p>
+        </div>
+
+        {/* Right Column: GSAP Scrolling Posters */}
+        <div className="w-full md:w-2/3 lg:w-3/5 h-[60vh] md:h-full relative overflow-hidden flex items-center shrink-0 z-10 bg-bg-base">
+          <div 
+            ref={scrollWrapperRef}
+            className="flex items-center w-max gap-12 md:gap-24 h-[60vh] md:h-[70vh] absolute top-1/2 -translate-y-1/2 left-0 will-change-transform"
+          >
+            {/* Start Spacer - pushes first poster to center */}
+            <div className="w-[50vw] lg:w-[30vw] h-full flex-shrink-0" />
+
+            {/* Film Posters */}
+            {legacy.map((release) => (
+              <div key={release.id} className="poster-item relative h-full flex-shrink-0 group" data-active="false">
+                {/* Poster Image */}
+                <div className="h-full aspect-[2/3] relative shadow-2xl overflow-hidden border border-hairline border-opacity-10 bg-bg-raised transition-transform duration-700 ease-out scale-95 group-data-[active=true]:scale-105">
+                  <img
+                    src={release.coverArtPath || '/images/covers/placeholder.jpg'}
+                    alt={release.title}
+                    className="w-full h-full object-cover transition-all duration-700 ease-out grayscale opacity-30 group-data-[active=true]:grayscale-0 group-data-[active=true]:opacity-100"
+                  />
+                </div>
+              </div>
+            ))}
+
+            {/* End Spacer - allows last poster to reach center */}
+            <div className="w-[50vw] lg:w-[30vw] h-full flex-shrink-0" />
+          </div>
+        </div>
+
       </div>
     </section>
   );

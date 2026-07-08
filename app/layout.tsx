@@ -1,17 +1,15 @@
 import type { Metadata } from "next";
-import { Anton, Space_Mono, Inter, Geist } from "next/font/google";
+import { Bricolage_Grotesque, Space_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
+import CustomCursor from "@/components/ui/CustomCursor";
 import GrainOverlay from "@/components/ui/GrainOverlay";
 import { cn } from "@/lib/utils";
 import { GlobalPlayerProvider } from "@/components/providers/GlobalPlayerProvider";
 import { StickyMiniPlayer } from "@/components/ui/StickyMiniPlayer";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
-
-const anton = Anton({
-  variable: "--font-anton",
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-bricolage",
   subsets: ["latin"],
-  weight: "400",
 });
 
 const spaceMono = Space_Mono({
@@ -20,13 +18,15 @@ const spaceMono = Space_Mono({
   weight: ["400", "700"],
 });
 
-const inter = Inter({
-  variable: "--font-inter",
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-instrument",
   subsets: ["latin"],
+  weight: "400",
+  style: "italic",
 });
 
 export const metadata: Metadata = {
-  title: "Akshay Raheja | Composer & Producer",
+  title: "Akshay Raheja",
   description: "Portfolio of Bollywood composer and producer Akshay Raheja, also known as Akshay & IP.",
   robots: {
     index: true,
@@ -49,9 +49,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", anton.variable, spaceMono.variable, inter.variable, "font-sans", geist.variable)}
+      className={cn("h-full", "antialiased", bricolage.variable, spaceMono.variable, instrumentSerif.variable, "font-sans")}
     >
       <body className="min-h-full flex flex-col relative bg-bg-base text-text-primary">
+        <CustomCursor />
         <GlobalPlayerProvider>
           <GrainOverlay />
           {children}

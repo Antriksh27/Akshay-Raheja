@@ -1,118 +1,152 @@
 'use client';
-
-import { useRef } from 'react';
-import { getRecreations } from '@/lib/data/releases';
+import { useRef, useEffect, useState } from 'react';
+import Image from 'next/image';
+import { getRecreations, Release } from '@/lib/data/releases';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import { MusicPlayer } from '@/components/ui/music-player';
 
 gsap.registerPlugin(ScrollTrigger);
+
+function RecreationPanel({ release }: { release: Release }) {
+  return (
+    <div className="recreation-panel relative flex flex-col md:flex-row items-center gap-12 md:gap-16 w-full">
+      {/* Red Flash on scroll into view */}
+      <div className="recreation-flash absolute inset-0 bg-accent-flash z-50 pointer-events-none opacity-0"></div>
+
+      <div className="w-full md:w-5/12 flex flex-col gap-6 order-2 md:order-1">
+        <h3 className="font-display text-4xl md:text-5xl lg:text-6xl text-text-primary uppercase tracking-tighter leading-none">
+          {release.title}
+        </h3>
+        <p className="font-accent text-2xl md:text-3xl text-text-primary italic leading-snug">
+          {release.contextLine}
+        </p>
+        
+        {release.originalTrackRef && (
+          <div className="mt-2 pt-6 border-t border-hairline">
+            <span className="block font-structural text-[10px] md:text-xs text-text-secondary uppercase tracking-[0.2em] mb-3">
+              Original Composition
+            </span>
+            <span className="block font-display text-xl md:text-2xl text-text-primary uppercase tracking-tight">
+              {release.originalTrackRef.title} <span className="text-text-secondary font-structural text-sm tracking-widest ml-2">({release.originalTrackRef.year})</span>
+            </span>
+            <span className="block font-structural text-xs text-text-secondary tracking-widest uppercase mt-2">
+              By <span className="text-text-primary">{release.originalTrackRef.composer}</span>
+            </span>
+          </div>
+        )}
+
+        <div className="pt-4">
+          <span className="font-structural text-xs text-text-primary uppercase tracking-[0.2em] border-b border-hairline pb-1">
+            {release.role.join(' / ')}
+          </span>
+        </div>
+      </div>
+      
+      <div className="w-full md:w-7/12 relative order-1 md:order-2 recreation-right flex justify-center lg:justify-end">
+        {release.youtubeId ? (
+          <div className="w-full">
+            <MusicPlayer 
+              theme="midnight" 
+              currentTrack={{
+                id: release.id,
+                title: release.title,
+                artist: release.project,
+                album: release.year.toString(),
+                artwork: `https://img.youtube.com/vi/${release.youtubeId}/maxresdefault.jpg`,
+                duration: 0,
+                url: `https://www.youtube.com/watch?v=${release.youtubeId}`
+              }} 
+            />
+          </div>
+        ) : (
+          <div className="w-full aspect-video relative shadow-2xl overflow-hidden">
+            <Image 
+              src={release.coverArtPath || '/images/covers/placeholder.jpg'} 
+              alt={release.title} 
+              fill 
+              className="object-cover grayscale hover:grayscale-0 transition-all duration-700" 
+              unoptimized
+            />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
 
 export default function Recreations() {
   const recreations = getRecreations();
   const containerRef = useRef<HTMLDivElement>(null);
-
+  
   useGSAP(() => {
+    if (!containerRef.current) return;
+    
+    // Vertical layout scroll triggers
     const panels = gsap.utils.toArray('.recreation-panel');
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
+    
     panels.forEach((panel: any) => {
-      const rightSide = panel.querySelector('.recreation-right');
       const flash = panel.querySelector('.recreation-flash');
+      
+      // Panel entry animation
+      gsap.fromTo(panel, 
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1, 
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: panel,
+            start: "top 80%",
+          }
+        }
+      );
 
-      if (prefersReducedMotion) {
-        gsap.set(rightSide, { opacity: 1 });
-        return;
+      // Flash effect
+      if (flash) {
+        gsap.to(flash, {
+          opacity: 1,
+          duration: 0.1,
+          ease: "power4.in",
+          scrollTrigger: {
+            trigger: panel,
+            start: "top 50%",
+            onEnter: () => {
+              gsap.to(flash, { opacity: 0, duration: 0.6, ease: "power2.out", delay: 0.1 });
+            }
+          }
+        });
       }
-
-      gsap.set(rightSide, { opacity: 0 });
-
-      ScrollTrigger.create({
-        trigger: panel,
-        start: 'top 60%',
-        onEnter: () => {
-          gsap.timeline()
-            .set(flash, { opacity: 1 })
-            .set(rightSide, { opacity: 1 })
-            .to(flash, { opacity: 0, duration: 0.15, ease: 'power4.out', delay: 0.05 });
-        },
-        once: true
-      });
     });
   }, { scope: containerRef });
 
   return (
-    <section id="recreations" className="w-full py-24 md:py-32 px-6 md:px-16 bg-black text-white relative z-10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)]" ref={containerRef}>
-      <div className="max-w-7xl mx-auto">
-        <header className="mb-24 md:mb-32 text-center md:text-left">
-          <h2 className="font-display text-5xl md:text-6xl lg:text-8xl text-white mb-4 tracking-tighter uppercase">The Recreations</h2>
-          <p className="font-structural text-lg md:text-xl text-white/70 uppercase tracking-[0.2em]">Reimagined with absolute respect for the legacy.</p>
+    <section 
+      id="recreations" 
+      className="w-full bg-bg-base text-text-primary relative z-10 border-t border-hairline overflow-hidden" 
+      ref={containerRef}
+    >
+      <div className="w-full h-full py-24 md:py-32 px-6 md:px-16 max-w-7xl mx-auto">
+        
+        {/* Header */}
+        <header className="mb-24 md:mb-32 max-w-2xl">
+          <h2 className="font-display text-5xl md:text-7xl lg:text-8xl text-text-primary tracking-tighter mb-8">
+            The Recreations
+          </h2>
+          <p className="font-body text-lg md:text-xl text-text-secondary leading-relaxed">
+            Reimagining iconic classics for a new generation. When the brief is to honor the original while making it hit harder for today's ear.
+          </p>
         </header>
 
-        <div className="flex flex-col gap-24 md:gap-32">
+        {/* Vertical Stack */}
+        <div className="flex flex-col gap-32">
           {recreations.map((release) => (
-            <div key={release.id} className="recreation-panel flex flex-col md:flex-row relative items-center gap-12 md:gap-24">
-              
-              {/* Full-width absolute flash layer, contained within the panel bounds */}
-              <div className="recreation-flash absolute inset-0 bg-white opacity-0 pointer-events-none z-50"></div>
-              
-              {/* Left Panel - The Original */}
-              <div className="recreation-left w-full md:w-5/12 flex justify-start md:justify-end opacity-40 hover:opacity-70 transition-opacity">
-                <div className="w-full max-w-sm relative">
-                  <div className="relative z-10 text-left md:text-right">
-                    <p className="font-structural text-xs text-white/50 uppercase tracking-[0.2em] mb-4">Original Source</p>
-                    <h3 className="font-display text-3xl md:text-4xl text-white mb-2 uppercase tracking-tighter">
-                      {release.originalTrackRef?.title || "Unknown Original"}
-                    </h3>
-                    <p className="font-structural text-lg text-white/70 mb-6 italic tracking-wider">
-                      Composed by {release.originalTrackRef?.composer}
-                    </p>
-                    <p className="font-structural text-xs text-white/50 uppercase tracking-[0.2em]">
-                      {release.originalTrackRef?.year}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Center Spill Light Connector */}
-              <div className="hidden md:flex flex-col items-center justify-center relative w-16 h-32">
-                <div className="absolute w-px h-full bg-gradient-to-b from-transparent via-white to-transparent opacity-30"></div>
-              </div>
-              
-              {/* Right Panel - The Reimagining */}
-              <div className="recreation-right w-full md:w-5/12 relative">
-                <div className="text-left">
-                  <p className="font-structural text-xs text-white/80 uppercase tracking-[0.2em] mb-4">
-                    Session • {release.year}
-                  </p>
-                  
-                  <h3 className="font-display text-5xl md:text-6xl text-white mb-2 tracking-tighter uppercase">
-                    {release.title}
-                  </h3>
-                  
-                  <p className="font-structural text-xs text-white/50 uppercase tracking-[0.2em] mb-8">
-                    {release.project}
-                  </p>
-                  
-                  <p className="font-structural text-lg md:text-xl text-white/70 mb-10 leading-relaxed italic tracking-wide">
-                    {release.contextLine}
-                  </p>
-                  
-                  <div className="w-full border border-white/20 p-1 max-w-md bg-black">
-                    {release.embedUrl !== "PLACEHOLDER_SPOTIFY_EMBED" ? (
-                      <iframe src={release.embedUrl} width="100%" height="80" frameBorder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy" className="block w-full"></iframe>
-                    ) : (
-                      <div className="w-full h-[80px] bg-black border border-white/20 flex items-center justify-center">
-                        <span className="font-structural text-xs text-white/50 tracking-[0.2em] uppercase">Playback [Pending]</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-              
-            </div>
+            <RecreationPanel key={release.id} release={release} />
           ))}
         </div>
+        
       </div>
     </section>
   );

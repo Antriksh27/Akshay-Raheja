@@ -6,7 +6,7 @@ import { Play, Pause, X, SkipForward, Maximize2 } from "lucide-react";
 import Image from "next/image";
 
 export function StickyMiniPlayer() {
-  const { activeTrack, isPlaying, progress, duration, isPiPVisible, togglePlay, seekTo } = usePlayerContext();
+  const { activeTrack, isPlaying, progress, duration, isPiPVisible, togglePlay, seekTo, stopTrack } = usePlayerContext();
   const [isDismissed, setIsDismissed] = React.useState(false);
 
   // If a new track starts, undis-miss the PiP
@@ -43,7 +43,10 @@ export function StickyMiniPlayer() {
             <span className="text-white/60 text-[10px] uppercase tracking-widest font-structural font-bold">Now Playing</span>
           </div>
           <button 
-            onClick={() => setIsDismissed(true)}
+            onClick={() => {
+              setIsDismissed(true);
+              stopTrack();
+            }}
             className="text-white/40 hover:text-white transition-colors"
           >
             <X className="w-4 h-4" />

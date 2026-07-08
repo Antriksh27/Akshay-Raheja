@@ -228,29 +228,29 @@ export const MusicPlayer = ({
       case "spotify":
         return `bg-green-50 dark:bg-black text-green-600 dark:text-green-500 border-2 border-green-400/40 shadow-2xl shadow-green-500/20 ${baseStyles}`;
       case "cosmic":
-        return `bg-gradient-to-br from-violet-900/95 via-purple-800/95 to-fuchsia-900/95 text-white border border-violet-400/40 shadow-2xl shadow-purple-500/20 ${baseStyles}`;
+        return `bg-gradient-to-br from-bg-base via-bg-base to-bg-base text-text-primary border border-hairline shadow-2xl shadow-black/20 ${baseStyles}`;
       case "midnight":
-        return `bg-gradient-to-br from-slate-200 via-gray-200 to-zinc-200 dark:from-slate-900/95 dark:via-neutral-800/95 dark:to-zinc-900/95 text-black dark:text-white border border-slate-400/40 shadow-2xl shadow-slate-500/20 ${baseStyles}`;
+        return `bg-gradient-to-br from-bg-base via-bg-base to-bg-base text-text-primary border border-hairline shadow-2xl shadow-black/20 ${baseStyles}`;
       default:
-        return `bg-gradient-to-br from-blue-100 via-cyan-100 to-teal-100 dark:from-blue-900/95 dark:via-cyan-800/95 dark:to-teal-900/95 text-black dark:text-white border border-blue-400/40 shadow-2xl shadow-cyan-500/20 ${baseStyles}`;
+        return `bg-gradient-to-br from-bg-base via-bg-base to-bg-base text-text-primary border border-hairline shadow-2xl shadow-black/20 ${baseStyles}`;
     }
   };
 
   const getAccentColor = () => {
     switch (theme) {
       case "spotify": return "bg-green-500";
-      case "cosmic": return "bg-violet-400";
-      case "midnight": return "bg-zinc-400 dark:slate-400";
-      default: return "bg-cyan-400";
+      case "cosmic": return "bg-accent-flash";
+      case "midnight": return "bg-accent-flash";
+      default: return "bg-accent-flash";
     }
   };
 
   const getEqualizerColor = () => {
     switch (theme) {
       case "spotify": return "from-green-300 to-green-500";
-      case "cosmic": return "from-violet-300 to-purple-500";
-      case "midnight": return "from-slate-200 to-gray-400";
-      default: return "from-indigo-300 to-purple-500";
+      case "cosmic": return "from-accent-flash to-accent-flash";
+      case "midnight": return "from-accent-flash to-accent-flash";
+      default: return "from-accent-flash to-accent-flash";
     }
   };
 

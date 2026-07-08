@@ -26,6 +26,7 @@ interface PlayerContextType {
   setVolume: (volume: number) => void;
   registerVisibility: (trackId: string, isVisible: boolean) => void;
   isPiPVisible: boolean;
+  stopTrack: () => void;
 }
 
 export const PlayerContext = createContext<PlayerContextType | undefined>(undefined);
@@ -56,6 +57,11 @@ export function GlobalPlayerProvider({ children }: { children: ReactNode }) {
   };
 
   const togglePlay = () => setIsPlaying(!isPlaying);
+
+  const stopTrack = () => {
+    setIsPlaying(false);
+    setActiveTrack(null);
+  };
 
   const seekTo = (percentage: number) => {
     if (playerRef.current) {
@@ -110,7 +116,8 @@ export function GlobalPlayerProvider({ children }: { children: ReactNode }) {
       seekTo,
       setVolume: setVolumeLevel,
       registerVisibility,
-      isPiPVisible
+      isPiPVisible,
+      stopTrack
     }}>
       {children}
       

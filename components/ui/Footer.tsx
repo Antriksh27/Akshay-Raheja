@@ -15,8 +15,8 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-12 md:gap-0">
         
         <div className="flex flex-col gap-4">
-          <a href="#hero" className="font-display text-2xl text-text-primary hover:text-accent-flash transition-colors focus:outline-none tracking-tighter">
-            Akshay & IP
+          <a href="#hero" className="font-display text-2xl text-text-primary hover:text-accent-flash transition-colors focus:outline-none tracking-tighter uppercase">
+            Akshay Raheja
           </a>
           <a href="mailto:studio@akshayraheja.com" className="font-structural text-xs text-text-secondary hover:text-accent-flash uppercase tracking-[0.2em] transition-colors focus:outline-none">
             studio@akshayraheja.com
@@ -46,7 +46,7 @@ export default function Footer() {
             <a href="https://spotify.com" target="_blank" rel="noopener noreferrer" className="font-structural text-xs text-text-secondary uppercase tracking-[0.2em] hover:text-text-primary transition-colors focus:outline-none">Spotify</a>
           </div>
           <p className="font-structural text-[10px] text-text-secondary/50 uppercase tracking-[0.2em]">
-            © {currentYear} Akshay & IP. All Rights Reserved.
+            © {currentYear} Akshay Raheja. All Rights Reserved. (Also known as Akshay & IP)
           </p>
         </div>
 
