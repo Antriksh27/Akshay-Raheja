@@ -41,7 +41,7 @@ export default function RedBreak() {
   return (
     <section ref={containerRef} className="w-full min-h-[60vh] md:min-h-[80vh] bg-accent-flash flex items-center justify-center px-4 overflow-hidden relative z-10 border-y border-bg-base perspective-[1000px]">
       <div className="redbreak-container flex flex-col items-center justify-center w-full transform-gpu">
-        <h2 className="font-display text-[13vw] md:text-[11vw] lg:text-[10vw] text-bg-base uppercase tracking-tighter leading-[0.8] text-center w-full flex flex-col whitespace-nowrap mix-blend-multiply opacity-90">
+        <h2 className="font-display text-[11vw] md:text-[11vw] lg:text-[10vw] text-bg-base uppercase tracking-tighter leading-[0.8] text-center w-full flex flex-col whitespace-nowrap mix-blend-multiply opacity-90">
           <span className="redbreak-line block">THE SOUNDTRACK</span>
           <span className="redbreak-line block text-text-primary mix-blend-normal">OUTLIVES</span>
           <span className="redbreak-line block">THE RUNTIME.</span>

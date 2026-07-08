@@ -11,15 +11,15 @@ gsap.registerPlugin(ScrollTrigger);
 
 function RecreationPanel({ release }: { release: Release }) {
   return (
-    <div className="recreation-panel relative flex flex-col md:flex-row items-center gap-12 md:gap-16 w-full">
+    <div className="recreation-panel relative flex flex-col md:flex-row items-center gap-8 md:gap-16 w-full">
       {/* Red Flash on scroll into view */}
       <div className="recreation-flash absolute inset-0 bg-accent-flash z-50 pointer-events-none opacity-0"></div>
 
-      <div className="w-full md:w-5/12 flex flex-col gap-6 order-2 md:order-1">
-        <h3 className="font-display text-4xl md:text-5xl lg:text-6xl text-text-primary uppercase tracking-tighter leading-none">
+      <div className="w-full md:w-5/12 flex flex-col gap-4 md:gap-6 order-2 md:order-1">
+        <h3 className="font-display text-3xl md:text-5xl lg:text-6xl text-text-primary uppercase tracking-tighter leading-none">
           {release.title}
         </h3>
-        <p className="font-accent text-2xl md:text-3xl text-text-primary italic leading-snug">
+        <p className="font-accent text-xl md:text-3xl text-text-primary italic leading-snug">
           {release.contextLine}
         </p>
         
@@ -28,7 +28,7 @@ function RecreationPanel({ release }: { release: Release }) {
             <span className="block font-structural text-[10px] md:text-xs text-text-secondary uppercase tracking-[0.2em] mb-3">
               Original Composition
             </span>
-            <span className="block font-display text-xl md:text-2xl text-text-primary uppercase tracking-tight">
+            <span className="block font-display text-lg md:text-2xl text-text-primary uppercase tracking-tight">
               {release.originalTrackRef.title} <span className="text-text-secondary font-structural text-sm tracking-widest ml-2">({release.originalTrackRef.year})</span>
             </span>
             <span className="block font-structural text-xs text-text-secondary tracking-widest uppercase mt-2">
@@ -128,20 +128,20 @@ export default function Recreations() {
       className="w-full bg-bg-base text-text-primary relative z-10 border-t border-hairline overflow-hidden" 
       ref={containerRef}
     >
-      <div className="w-full h-full py-24 md:py-32 px-6 md:px-16 max-w-7xl mx-auto">
+      <div className="w-full h-full py-16 md:py-32 px-4 md:px-16 max-w-7xl mx-auto">
         
         {/* Header */}
-        <header className="mb-24 md:mb-32 max-w-2xl">
-          <h2 className="font-display text-5xl md:text-7xl lg:text-8xl text-text-primary tracking-tighter mb-8">
+        <header className="mb-16 md:mb-32 max-w-2xl">
+          <h2 className="font-display text-4xl md:text-7xl lg:text-8xl text-text-primary tracking-tighter mb-6 md:mb-8">
             The Recreations
           </h2>
-          <p className="font-body text-lg md:text-xl text-text-secondary leading-relaxed">
+          <p className="font-body text-base md:text-xl text-text-secondary leading-relaxed">
             Reimagining iconic classics for a new generation. When the brief is to honor the original while making it hit harder for today's ear.
           </p>
         </header>
 
         {/* Vertical Stack */}
-        <div className="flex flex-col gap-32">
+        <div className="flex flex-col gap-16 md:gap-32">
           {recreations.map((release) => (
             <RecreationPanel key={release.id} release={release} />
           ))}

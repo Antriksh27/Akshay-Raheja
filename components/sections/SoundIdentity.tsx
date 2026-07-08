@@ -35,9 +35,7 @@ function BackstageClip({ clip, note }: { clip: Release, note: string }) {
             height="0"
             className="hidden"
             config={{
-              youtube: {
-                playerVars: { showinfo: 0, controls: 0 }
-              }
+              playerVars: { showinfo: 0, controls: 0 }
             }}
           />
         )}
@@ -56,7 +54,7 @@ function BackstageClip({ clip, note }: { clip: Release, note: string }) {
         
         <div className="flex flex-col gap-1 w-full">
           <div className="flex items-end justify-between">
-            <p className="font-display text-2xl md:text-3xl text-text-primary">{clip.title}</p>
+            <p className="font-display text-xl md:text-3xl text-text-primary">{clip.title}</p>
             {/* Fake oscilloscope pulse */}
             <div className="flex items-center gap-[2px] opacity-80 h-4">
               {[40, 70, 40, 90, 60, 30].map((h, i) => (
@@ -112,18 +110,18 @@ export default function SoundIdentity() {
   }, { scope: containerRef });
 
   return (
-    <section id="sound" className="w-full py-24 md:py-32 px-6 md:px-16 border-t border-hairline bg-bg-base" ref={containerRef}>
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 lg:gap-24">
+    <section id="sound" className="w-full py-16 md:py-32 px-4 md:px-16 border-t border-hairline bg-bg-base" ref={containerRef}>
+      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-12 lg:gap-24">
         
         {/* Left Column - Bio and Photo Slot */}
         <div className="w-full lg:w-5/12 flex flex-col justify-center">
-          <header className="mb-10 md:mb-12">
-            <h2 className="font-display text-5xl md:text-7xl lg:text-8xl text-text-primary tracking-tighter uppercase">Backstage</h2>
+          <header className="mb-8 md:mb-12">
+            <h2 className="font-display text-4xl md:text-7xl lg:text-8xl text-text-primary tracking-tighter uppercase">Backstage</h2>
           </header>
           
           <div className="mb-12 lg:mb-16">
             {/* Bio in Inter (neutral grotesque) for clean contrast */}
-            <p className="font-body text-xl md:text-2xl text-text-secondary leading-relaxed md:leading-loose">
+            <p className="font-body text-lg md:text-2xl text-text-secondary leading-relaxed md:leading-loose">
               {bio}
             </p>
           </div>

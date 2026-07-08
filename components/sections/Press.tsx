@@ -29,15 +29,15 @@ export default function Press() {
   }, { scope: containerRef });
 
   return (
-    <section id="press" className="w-full py-24 md:py-32 px-6 md:px-16 bg-bg-base" ref={containerRef}>
+    <section id="press" className="w-full py-16 md:py-32 px-4 md:px-16 bg-bg-base" ref={containerRef}>
       <div className="max-w-6xl mx-auto">
-        <header className="mb-16 md:mb-24 press-element">
-          <h2 className="font-display text-5xl md:text-6xl lg:text-8xl text-text-primary uppercase tracking-tighter">Recognition</h2>
+        <header className="mb-12 md:mb-24 press-element">
+          <h2 className="font-display text-4xl md:text-6xl lg:text-8xl text-text-primary uppercase tracking-tighter">Recognition</h2>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-24 mb-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-24 mb-16 md:mb-24">
           <blockquote className="press-element border-t border-hairline pt-6">
-            <p className="font-display text-3xl md:text-4xl text-text-primary mb-6 leading-tight">
+            <p className="font-display text-2xl md:text-4xl text-text-primary mb-4 md:mb-6 leading-tight">
               "A seamless marriage of traditional sarod warmth and the muscular demands of modern playback scale."
             </p>
             <footer className="flex flex-col">
@@ -47,7 +47,7 @@ export default function Press() {
           </blockquote>
 
           <blockquote className="press-element border-t border-hairline pt-6">
-            <p className="font-display text-3xl md:text-4xl text-text-primary mb-6 leading-tight">
+            <p className="font-display text-2xl md:text-4xl text-text-primary mb-4 md:mb-6 leading-tight">
               "They don't just remake classics; they hold a genuine conversation with the composers who came before them."
             </p>
             <footer className="flex flex-col">
@@ -58,15 +58,15 @@ export default function Press() {
         </div>
 
         {/* Logo Row */}
-        <div className="press-element flex flex-col items-center border-y border-hairline py-12 md:py-16 mb-16">
+        <div className="press-element flex flex-col items-center border-y border-hairline py-10 md:py-16 mb-12 md:mb-16">
           <p className="font-structural text-xs text-text-secondary uppercase tracking-[0.2em] mb-8 text-center">Featured In</p>
           
-          <div className="flex flex-wrap justify-center gap-12 md:gap-20 items-center w-full grayscale opacity-40 hover:opacity-100 transition-opacity duration-300">
+          <div className="flex flex-wrap justify-center gap-8 md:gap-20 items-center w-full grayscale opacity-40 hover:opacity-100 transition-opacity duration-300">
             {/* TODO: Swap these text placeholders with real logo SVGs/assets */}
-            <span className="font-display text-3xl text-text-primary tracking-tight">DNA</span>
-            <span className="font-display text-3xl text-text-primary tracking-tight">Bollywood Hungama</span>
-            <span className="font-display text-3xl text-text-primary tracking-tight">Hindustan Times</span>
-            <span className="font-display text-3xl text-text-primary tracking-tight">Film Companion</span>
+            <span className="font-display text-xl md:text-3xl text-text-primary tracking-tight">DNA</span>
+            <span className="font-display text-xl md:text-3xl text-text-primary tracking-tight">Bollywood Hungama</span>
+            <span className="font-display text-xl md:text-3xl text-text-primary tracking-tight">Hindustan Times</span>
+            <span className="font-display text-xl md:text-3xl text-text-primary tracking-tight">Film Companion</span>
           </div>
         </div>
 

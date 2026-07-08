@@ -173,16 +173,16 @@ export default function RunwayPerformances() {
   }, { scope: containerRef });
 
   return (
-    <section id="runway" className="w-full py-24 md:py-32 px-6 md:px-16 border-t border-hairline bg-bg-base" ref={containerRef}>
+    <section id="runway" className="w-full py-16 md:py-32 px-4 md:px-16 border-t border-hairline bg-bg-base" ref={containerRef}>
       <div className="max-w-6xl mx-auto">
-        <header className="mb-20 md:mb-28 runway-header transform-gpu">
-          <h2 className="font-display text-5xl md:text-6xl lg:text-8xl text-text-primary tracking-tighter uppercase mb-6">The Runway</h2>
-          <p className="font-accent text-3xl md:text-4xl text-text-primary opacity-90 max-w-2xl leading-tight">
+        <header className="mb-12 md:mb-28 runway-header transform-gpu">
+          <h2 className="font-display text-4xl md:text-6xl lg:text-8xl text-text-primary tracking-tighter uppercase mb-4 md:mb-6">The Runway</h2>
+          <p className="font-accent text-2xl md:text-4xl text-text-primary opacity-90 max-w-2xl leading-tight">
             Before the soundtrack was a film credit, it was the reason the room went quiet.
           </p>
         </header>
 
-        <div className="flex flex-col gap-16 md:gap-24">
+        <div className="flex flex-col gap-12 md:gap-24">
           {runwayData.map((item) => (
             <div key={item.id} className="runway-item flex flex-col md:flex-row gap-8 md:gap-16 border-t border-hairline pt-8 md:pt-12 relative group">
               
@@ -221,17 +221,17 @@ export default function RunwayPerformances() {
                   </span>
                 </div>
 
-                <h3 className="font-display text-4xl md:text-5xl lg:text-6xl text-text-primary uppercase tracking-tight mb-8">
+                <h3 className="font-display text-3xl md:text-5xl lg:text-6xl text-text-primary uppercase tracking-tight mb-6 md:mb-8">
                   {item.title}
                 </h3>
                 
-                <p className="font-accent text-2xl md:text-3xl text-text-secondary leading-snug mb-10 max-w-xl">
+                <p className="font-accent text-xl md:text-3xl text-text-secondary leading-snug mb-8 md:mb-10 max-w-xl">
                   {item.context}
                 </p>
 
                 {item.quote && (
                   <div className="border-l border-accent-flash pl-6 mt-4">
-                    <p className="font-accent text-xl md:text-2xl text-text-primary leading-relaxed mb-3">
+                    <p className="font-accent text-lg md:text-2xl text-text-primary leading-relaxed mb-3">
                       "{item.quote}"
                     </p>
                     <p className="font-structural text-xs text-text-secondary tracking-[0.2em] uppercase">

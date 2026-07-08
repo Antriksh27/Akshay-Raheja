@@ -46,8 +46,8 @@ function FeedItem({ release, index, isExpanded, onToggle }: { release: Release, 
       
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-8 hover:opacity-70 transition-opacity">
         <div className="flex items-center gap-6 md:gap-12 w-full md:w-auto">
-          <span className="font-structural text-2xl md:text-3xl text-text-secondary tracking-[0.1em] uppercase">{formatIndex(index)}</span>
-          <h3 className="font-display text-3xl md:text-5xl lg:text-6xl text-text-primary uppercase tracking-tighter transition-colors">
+          <span className="font-structural text-xl md:text-3xl text-text-secondary tracking-[0.1em] uppercase">{formatIndex(index)}</span>
+          <h3 className="font-display text-2xl md:text-5xl lg:text-6xl text-text-primary uppercase tracking-tighter transition-colors">
             {release.title}
           </h3>
         </div>
@@ -71,7 +71,7 @@ function FeedItem({ release, index, isExpanded, onToggle }: { release: Release, 
                   </span>
                 ))}
               </div>
-              <p className="font-accent text-2xl md:text-3xl text-text-primary italic leading-snug mb-8">{release.contextLine}</p>
+              <p className="font-accent text-xl md:text-3xl text-text-primary italic leading-snug mb-8">{release.contextLine}</p>
             </div>
           </div>
           
@@ -161,13 +161,13 @@ export default function NowFeed() {
   }, { scope: containerRef });
 
   return (
-    <section id="now" className="w-full py-24 md:py-32 bg-bg-raised text-text-primary relative z-0 border-t border-hairline" ref={containerRef}>
+    <section id="now" className="w-full py-16 md:py-32 bg-bg-raised text-text-primary relative z-0 border-t border-hairline" ref={containerRef}>
       
       {/* Featured / Closing Look (Full-bleed or near full-bleed emphasis) */}
       {featured && (
-        <div className="feed-element w-full px-6 md:px-16 mb-24 md:mb-40">
-          <header className="max-w-7xl mx-auto mb-16 flex items-center justify-between">
-            <h2 className="font-display text-5xl md:text-7xl lg:text-8xl text-text-primary uppercase tracking-tighter">Show Order</h2>
+        <div className="feed-element w-full px-4 md:px-16 mb-16 md:mb-40">
+          <header className="max-w-7xl mx-auto mb-10 md:mb-16 flex items-center justify-between">
+            <h2 className="font-display text-4xl md:text-7xl lg:text-8xl text-text-primary uppercase tracking-tighter">Show Order</h2>
             <span className="hidden md:block font-structural text-sm text-text-primary border border-text-primary px-2 py-1 uppercase tracking-[0.2em] animate-pulse">Live</span>
           </header>
 
@@ -178,7 +178,7 @@ export default function NowFeed() {
               <div className="w-full lg:w-1/2 flex flex-col justify-center px-0 lg:pr-16">
                 <div className="mb-8">
                   <span className="font-structural text-text-secondary uppercase tracking-[0.2em] text-xs mb-4 block font-bold">Closing Look</span>
-                  <h3 className="font-display text-4xl md:text-6xl lg:text-7xl text-text-primary uppercase tracking-tighter leading-none mb-4">{featured.title}</h3>
+                  <h3 className="font-display text-3xl md:text-6xl lg:text-7xl text-text-primary uppercase tracking-tighter leading-none mb-4">{featured.title}</h3>
                   <div className="flex items-center gap-4 text-text-secondary">
                     <span className="font-structural text-sm uppercase tracking-[0.1em]">{featured.project}</span>
                     <span className="font-structural text-sm tracking-[0.1em]">/</span>
@@ -186,7 +186,7 @@ export default function NowFeed() {
                   </div>
                 </div>
                 
-                <p className="font-accent text-3xl md:text-4xl text-text-primary italic leading-tight mb-10 max-w-xl">
+                <p className="font-accent text-2xl md:text-4xl text-text-primary italic leading-tight mb-10 max-w-xl">
                   {featured.contextLine}
                 </p>
 
@@ -230,7 +230,7 @@ export default function NowFeed() {
       )}
 
       {/* Running Order List */}
-      <div className="feed-element feed-list-container max-w-7xl mx-auto px-6 md:px-16">
+      <div className="feed-element feed-list-container max-w-7xl mx-auto px-4 md:px-16">
         <div className="flex flex-col">
           {feed.map((release, index) => (
             <div key={release.id} className="feed-item-reveal">

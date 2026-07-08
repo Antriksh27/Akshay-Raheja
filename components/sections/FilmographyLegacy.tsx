@@ -81,11 +81,11 @@ export default function FilmographyLegacy() {
         </div>
 
         {/* Left Column: Fixed Text */}
-        <div className="w-full md:w-1/3 lg:w-2/5 h-auto md:h-full flex flex-col justify-center px-8 md:px-16 lg:px-24 py-12 md:py-0 relative z-20 shrink-0 bg-bg-raised">
-          <h2 className="font-display text-7xl md:text-8xl lg:text-[8vw] leading-[0.8] tracking-tighter text-text-primary uppercase mb-8">
+        <div className="w-full md:w-1/3 lg:w-2/5 h-auto md:h-full flex flex-col justify-center px-6 py-8 md:py-0 md:px-16 lg:px-24 relative z-20 shrink-0 bg-bg-raised">
+          <h2 className="font-display text-5xl md:text-8xl lg:text-[8vw] leading-[0.8] tracking-tighter text-text-primary uppercase mb-8">
             The<br/>Legacy.
           </h2>
-          <p className="font-accent text-2xl md:text-4xl text-text-secondary italic max-w-sm">
+          <p className="font-accent text-xl md:text-4xl text-text-secondary italic max-w-sm">
             A decade of original scores that redefined the sound of Indian cinema.
           </p>
         </div>
