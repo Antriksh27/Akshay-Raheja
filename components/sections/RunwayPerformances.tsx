@@ -80,7 +80,7 @@ function RunwayVideo({ src, isMuted, onToggleMute }: { src: string, isMuted: boo
 
 export default function RunwayPerformances() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isGlobalMuted, setIsGlobalMuted] = useState(true);
+  const [isGlobalMuted, setIsGlobalMuted] = useState(false);
 
   useGSAP(() => {
     if (!containerRef.current) return;
@@ -155,8 +155,15 @@ export default function RunwayPerformances() {
             if (v !== video) v.pause();
           });
           
-          // 2. Play this one (it starts muted safely, user can unmute)
-          video.play().catch(() => {});
+          // 2. Play this one (attempt unmuted first)
+          video.play().catch((err: any) => {
+            if (err.name === 'NotAllowedError') {
+              // Browser blocked unmuted autoplay. Fallback to muted.
+              setIsGlobalMuted(true);
+              video.muted = true;
+              video.play().catch(() => {});
+            }
+          });
         };
 
         ScrollTrigger.create({
