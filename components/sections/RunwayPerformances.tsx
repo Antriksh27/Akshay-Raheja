@@ -80,7 +80,7 @@ function RunwayVideo({ src, isMuted, onToggleMute }: { src: string, isMuted: boo
 
 export default function RunwayPerformances() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isGlobalMuted, setIsGlobalMuted] = useState(false);
+  const [isGlobalMuted, setIsGlobalMuted] = useState(true);
 
   useGSAP(() => {
     if (!containerRef.current) return;
