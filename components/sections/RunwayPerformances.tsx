@@ -50,7 +50,7 @@ function RunwayVideo({ src, isMuted, onToggleMute }: { src: string, isMuted: boo
         loop
         muted={isMuted}
         playsInline
-        preload="metadata"
+        preload="none"
         className="absolute inset-0 w-full h-full object-cover transition-all duration-500"
       />
       
