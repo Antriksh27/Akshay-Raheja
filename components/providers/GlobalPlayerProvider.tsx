@@ -130,13 +130,11 @@ export function GlobalPlayerProvider({ children }: { children: ReactNode }) {
             height="1px"
             playsinline
             config={{
-              youtube: {
-                playerVars: {
-                  controls: 0,
-                  modestbranding: 1,
-                  fs: 0,
-                  playsinline: 1,
-                }
+              playerVars: {
+                controls: 0,
+                modestbranding: 1,
+                fs: 0,
+                playsinline: 1,
               }
             }}
           />
